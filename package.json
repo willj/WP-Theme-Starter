@@ -1,0 +1,23 @@
+{
+  "name": "wordpress-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-rename": "latest",
+    "gulp-sass": "latest",
+    "sass": "latest",
+    "gulp-changed": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-uglify": "latest",
+    "rev-hash": "^3.0.0"
+  },
+  "dependencies": {
+    "event-stream": "latest"
+  }
+}

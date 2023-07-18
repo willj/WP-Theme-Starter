@@ -1,0 +1,8 @@
+# get rid of all other files
+/*
+# include these only
+!.gitignore
+!gulpfile.js
+!package.json
+!readme.md
+!/theme-starter/
