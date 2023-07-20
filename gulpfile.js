@@ -14,7 +14,7 @@ function script(){
     return src(`./${themeName}/script/${themeName}.js`)
         .pipe(uglify())
         .pipe(rename({extname: ".min.js"}))
-        .pipe(dest(`./${themeName}/script`));
+        .pipe(dest(`./${themeName}/build`));
 }
 
 function versionScript(cb){
@@ -22,7 +22,7 @@ function versionScript(cb){
     fs.readFile(`./${themeName}/script/${themeName}.min.js`, (err, data) => {
         if (err) cb(err);
         let hash = revhash(data);
-        fs.writeFile(`./${themeName}/script/script-version`, hash, (err) => {
+        fs.writeFile(`./${themeName}/build/script-version`, hash, (err) => {
             if (err) cb(err);
         });
     })
@@ -31,23 +31,22 @@ function versionScript(cb){
 }
 
 function sassCss(){
-    return evstream.merge(
-        src(`./${themeName}/style-header.css`),
-        src(`./${themeName}/sass_src/**/*.scss`)
-        .pipe(sass().on('error', sass.logError))
-        .pipe(rename("__build.css"))
-        .pipe(dest(`./${themeName}/sass_src/`))
-        .pipe(cssmin({compatibility: "ie7", restructuring: false}))
-    ).pipe(concat("style.css"))
-    .pipe(dest(`./${themeName}/`));
+
+    return  src(`./${themeName}/sass_src/**/*.scss`)
+            .pipe(sass().on('error', sass.logError))
+            .pipe(rename("__build.css"))
+            .pipe(dest(`./${themeName}/build/`))
+            .pipe(cssmin({compatibility: "ie7", restructuring: false}))
+            .pipe(rename(`${themeName}.min.css`))
+            .pipe(dest(`./${themeName}/build/`));
 }
 
 function versionStyle(cb){
 
-    fs.readFile(`./${themeName}/style.css`, (err, data) => {
+    fs.readFile(`./${themeName}/build/${themeName}.min.css`, (err, data) => {
         if (err) cb(err);
         let hash = revhash(data);
-        fs.writeFile(`./${themeName}/style-version`, hash, (err) => {
+        fs.writeFile(`./${themeName}/build/style-version`, hash, (err) => {
             if (err) cb(err);
         });
     })
