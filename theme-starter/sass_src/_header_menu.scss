@@ -1,0 +1,369 @@
+$menuHeight: 80px;
+$menuBreakpoint: 1024px;
+$menuMidBreakpointMin: 1025px;
+$menuMidBreakpointMax: 1340px; // when the menu would fall apart so we need to make things smaller
+$menuAccentColor: #0693e3;
+$menuTopLevelFontSize: 1.125rem;
+$menuBackgroundColor: #ffffff;
+$menuLinkColor: #000000;
+
+@mixin menuHoverState(){
+    color: $menuAccentColor;
+}
+
+@mixin menuActiveState(){
+    text-decoration: underline;
+    text-decoration-color: $menuAccentColor;
+    text-decoration-thickness: 2px;
+    text-underline-position: under;
+}
+
+.header-menu-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $menuTopLevelFontSize;
+}
+
+/**************************** Menu Button *********************************************/
+
+.header-menu-button {
+    display: none;
+    position: relative;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    border-bottom: 3px solid #000000;
+    width: 36px;
+    height: 23px;
+    cursor: pointer;
+    color: transparent;
+    margin: 0;
+    transition: top 0.2s, height 0.2s;
+    font-size: 0;
+
+    &:hover {
+        border-color: $menuAccentColor;
+    }
+
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        border-bottom: 3px solid #000000;
+    }
+
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        border-bottom: 3px solid #000000;
+    }
+
+    &:hover:after,
+    &:hover:before {
+        border-color: $menuAccentColor;
+    }
+}
+
+.header-mobile-menu-open .header-menu-button {
+    border-color: transparent!important;
+    height: 36px;
+
+    &:after {
+        top: 17px;
+        transform: rotate(45deg);
+    }
+    &:before {
+        top: 17px;
+        transform: rotate(-45deg);
+    }
+}
+
+
+/**************************** Top Level Styles *********************************************/
+
+.header-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: $menuHeight;
+
+    li {
+        position: relative;
+        display: inline-block;
+        height: 100%;
+    }
+
+    li a {
+        box-sizing: border-box;
+        display: inline-block;
+        color: $menuLinkColor;
+        text-decoration: none;
+        text-align: left;
+        padding: 0 15px;
+        height: $menuHeight;
+        font-size: 1em;
+        line-height: $menuHeight;
+
+        &:hover {
+            @include menuHoverState;
+        }
+    }
+
+    .current-menu-item > a, 
+    .current_page_parent > a, 
+    .current-menu-ancestor > a 
+    {
+        @include menuActiveState;
+    }
+
+    .expand-sub-menu-button {
+        display: none;
+    }
+
+    .sub-menu {
+        display: none;
+    }
+}
+
+// mid size - stops the menu breaking on to 2 lines on smaller laptops
+@media screen and (min-width: $menuMidBreakpointMin) and (max-width: $menuMidBreakpointMax) {
+    
+    .header-menu {
+        font-size: 0.875em;
+    }
+
+}
+
+/**************************** Sub menu - large screens *********************************************/
+
+@media screen and (min-width: $menuMidBreakpointMin) {
+
+    // Full width sub menu styles
+
+    // right arrow - flyout menu (3rd level)
+    .sub-menu .menu-item-has-children > a > .expand-sub-menu-button {
+        display: block;
+        width: 0; 
+        height: 0; 
+        background-color: transparent;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 5px solid #000000;
+        border-right-width: 0px;
+        padding: 0px;
+        margin-top: 0;
+        float: none;
+        position: absolute;
+        right: 10px;
+        top: 20px;
+    }   
+
+    .header-menu {
+
+        li:hover .sub-menu {
+            display: block;
+            position: absolute;
+            top: $menuHeight;
+            left: 0;
+            width: 120%;
+            background-color: $menuBackgroundColor;
+            padding: 0;
+            z-index: 2;
+
+            li {
+                display: block;
+                padding-right: 5px;
+            }
+
+            li a {
+                line-height: 1.3em;
+                padding: 0 10px;
+                height: 50px;
+                font-size: 0.875em;
+            }
+
+            .current-menu-ancestor > a,
+            .current-menu-item > a {
+                @include menuActiveState;
+            }                
+        }
+    
+        // fly out menus - third level of nav
+        .sub-menu > li > .sub-menu {
+            display: none;
+        }
+
+        .sub-menu > li:hover > .sub-menu {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 104%;
+        }
+
+        .sub-menu > li > .sub-menu > li > a:after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            width: 70%;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .sub-menu > li > .sub-menu > li:last-of-type > a:after {
+            border-bottom: none;
+        }
+
+    }
+}
+
+/**************************** Sub menu - small screens *********************************************/
+
+@media screen and (max-width: $menuBreakpoint) {
+
+    .header-menu-button {
+        display: block;
+    }
+
+    .header-menu {
+        display: none;
+    }
+
+    // mobile menu
+    @keyframes mobile-menu-fade{
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    // stop the main body scrolling
+    body.header-mobile-menu-open {
+        position: fixed;
+    }
+
+    .header-mobile-menu-open {
+    
+        .header-menu-content {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: $menuHeight;
+            left: 0;
+            padding: 0px;
+            overflow-y: auto;
+            background-color: $menuBackgroundColor;
+            animation: mobile-menu-fade 0.2s;
+        }
+
+        .header-menu {
+            display: block;
+            height: auto;
+            padding: 40px 25px;
+            padding-bottom: $menuHeight;
+            max-width: 400px;
+            margin: 0 auto;
+
+            li {
+                display: block;
+                height: auto;
+                margin: 0 auto;
+                border-top: 1px solid #ececec;
+                padding: 8px 0 7px 0;
+            }
+
+            li a {
+                line-height: 1.3em;
+                height: auto;
+                display: block;
+                text-align: left;
+                padding: 0;
+            }
+
+            .sub-menu {
+                display: block;
+                position: relative;
+                border-top: 1px solid #ececec;
+                padding-left: 14px;
+                margin-top: 8px;
+
+                li {
+                    border: none;
+                    padding: 0;
+                }
+
+                li a {
+                    font-size: 0.875em;
+                    line-height: 1.3em;
+                    padding: 4px 0 3px 0;
+                }
+
+                // sub sub...
+                .sub-menu {
+                    margin-top: 0;
+                    border: none;
+                }
+
+                .current_page_parent > a, 
+                .current-menu-ancestor > a 
+                {
+                    text-decoration: none;
+                }
+            }
+
+            .current-menu-ancestor .sub-menu 
+            {
+                display: block;
+            }
+
+            .sub-menu-closed .sub-menu {
+                display: none;
+            }
+
+            & > li.menu-item-has-children > a > .expand-sub-menu-button {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 40px;
+                height: 100%;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                outline: none;
+                color: $menuLinkColor;
+
+                &:after {
+                    content: '\02212';
+                    display: block;
+                    width: 100%;
+                    height: 20px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 32px;
+                    position: absolute;
+                    top: 5px;
+                    left: 0;
+                    text-align: center;
+                    color: $menuLinkColor;
+                }
+            }
+
+            & > li.menu-item-has-children.sub-menu-closed > a > .expand-sub-menu-button:after {
+                content: '\0002B';
+            }
+
+        }
+    }
+
+}
