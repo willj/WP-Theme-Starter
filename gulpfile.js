@@ -5,10 +5,8 @@ const uglify = require("gulp-uglify");
 const rename = require("gulp-rename");
 const fs = require('fs');
 const revhash = require('rev-hash');
-const evstream = require('event-stream');
 const sass = require("gulp-sass")(require('sass'));
 const cssmin = require("gulp-clean-css");
-const concat = require("gulp-concat");
 
 function script(){
     return src(`./${themeName}/script/${themeName}.js`)
@@ -19,7 +17,7 @@ function script(){
 
 function versionScript(cb){
 
-    fs.readFile(`./${themeName}/script/${themeName}.min.js`, (err, data) => {
+    fs.readFile(`./${themeName}/build/${themeName}.min.js`, (err, data) => {
         if (err) cb(err);
         let hash = revhash(data);
         fs.writeFile(`./${themeName}/build/script-version`, hash, (err) => {
@@ -32,7 +30,7 @@ function versionScript(cb){
 
 function sassCss(){
 
-    return  src(`./${themeName}/sass_src/**/*.scss`)
+    return src(`./${themeName}/sass_src/**/*.scss`)
             .pipe(sass().on('error', sass.logError))
             .pipe(rename("__build.css"))
             .pipe(dest(`./${themeName}/build/`))

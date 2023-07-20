@@ -13,11 +13,7 @@
     "sass": "latest",
     "gulp-changed": "latest",
     "gulp-clean-css": "latest",
-    "gulp-concat": "latest",
     "gulp-uglify": "latest",
     "rev-hash": "^3.0.0"
-  },
-  "dependencies": {
-    "event-stream": "latest"
   }
 }
