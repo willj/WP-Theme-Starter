@@ -11,6 +11,7 @@ body {
 div, main, header, footer, section, article, nav {
     display: block;
     position: relative;
+    box-sizing: border-box;
 }
 
 main {

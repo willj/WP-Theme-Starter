@@ -19,25 +19,24 @@
                             <?php the_custom_logo(); ?>
                         <?php else: ?>
                             <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-    							<?php bloginfo( 'name' ); ?>
+                                <?php bloginfo( 'name' ); ?>
                             </a>                        
                         <?php endif; ?>
                     </div>
-                    <button class="main-menu-button">Menu</button>
+                    <button class="header-menu-button">Menu</button>
                 </div>
                 <nav class="header-menu-wrapper" role="navigation" aria-label="Main Menu">
-					<?php
-						wp_nav_menu( array(
-							'theme_location' => 'header',
-							'menu_class'     => 'header-menu',
-							'container'		 => '',
+                    <?php
+                        wp_nav_menu( array(
+                            'theme_location' => 'header',
+                            'menu_class'     => 'header-menu',
+                            'container'		 => '',
                             'link_after' => '<button class="expand-sub-menu-button"></button>'
-						) );
-					?>
+                        ) );
+                    ?>
                 </nav>
             </div>
         </div>
-		
 	</header>
 
 	<main>
