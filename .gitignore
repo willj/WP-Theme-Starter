@@ -7,4 +7,4 @@
 !readme.md
 !/theme-starter/
 # exlude build folder
-/theme-starter/build/*
+/*/build/*
